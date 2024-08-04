@@ -1,9 +1,9 @@
-package com.axork99.testmod2_fabric;
+package com.axork99.liminalmod;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 
-public class TestmodDataGenerator implements DataGeneratorEntrypoint {
+public class LiminalModDataGenerator implements DataGeneratorEntrypoint {
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
 

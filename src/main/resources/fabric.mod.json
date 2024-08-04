@@ -26,7 +26,7 @@
 		]
 	},
 	"mixins": [
-		"testmod2_fabric.mixins.json"
+		"liminalmod.mixins.json"
 	],
 	"depends": {
 		"fabricloader": ">=0.15.11",

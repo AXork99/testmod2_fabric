@@ -1,4 +1,4 @@
-package com.axork99.testmod2_fabric.mixin;
+package com.axork99.liminalmod.mixin;
 
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
