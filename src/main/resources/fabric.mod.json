@@ -1,9 +1,9 @@
 {
 	"schemaVersion": 1,
-	"id": "testmod2_fabric",
+	"id": "liminalmod",
 	"version": "${version}",
-	"name": "testmod2_fabric",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "Liminal Mod",
+	"description": "This mod is about shits and giggles",
 	"authors": [
 		"Me!"
 	],
@@ -12,17 +12,17 @@
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
 	"license": "MIT",
-	"icon": "assets/testmod2_fabric/icon.png",
+	"icon": "assets/liminalmod/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.axork99.testmod2_fabric.TestMod"
+			"com.axork99.liminalmod.LiminalMod"
 		],
 		"client": [
-			"com.axork99.testmod2_fabric.TestModClient"
+			"com.axork99.liminalmod.LiminalModClient"
 		],
 		"fabric-datagen": [
-			"com.axork99.testmod2_fabric.TestmodDataGenerator"
+			"com.axork99.liminalmod.LiminalModDataGenerator"
 		]
 	},
 	"mixins": [
