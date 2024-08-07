@@ -1,3 +1,7 @@
 {
-  "item.liminalmod.eggplant": "Eggplant"
+  "item.liminalmod.eggplant": "Eggplant",
+
+  "block.liminalmod.end_foliage": "End Foliage Block",
+
+  "itemgroup.liminal" : "Liminal"
 }

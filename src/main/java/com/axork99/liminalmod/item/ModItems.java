@@ -1,17 +1,21 @@
 package com.axork99.liminalmod.item;
 
 import com.axork99.liminalmod.LiminalMod;
+import com.axork99.liminalmod.entity.projectile.thrown.EggplantEntity;
+import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.item.SnowballItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class ModItems {
-    public static final Item EGGPLANT = registerItem("eggplant", new Item(new FabricItemSettings()));
+    public static final Item EGGPLANT = registerItem("eggplant",
+            new ThrowableItem(new ThrowableItem.Settings<>().entityThrown(EggplantEntity::new)));
 
     private static void addItemsToIngredientsItemGroup(FabricItemGroupEntries entries) {
         entries.add(EGGPLANT);
@@ -22,7 +26,7 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(ModItems::addItemsToIngredientsItemGroup);
     }
 
-    public static Item registerItem(String name, Item item) {
+    public static <T extends Item> T registerItem(String name, T item) {
         return Registry.register(Registries.ITEM, new Identifier(LiminalMod.MOD_ID, name), item);
     }
 }
