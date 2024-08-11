@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "liminalmod:condensed_exotic_matter"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "item": "liminalmod:exotic_matter"
+  }
+}

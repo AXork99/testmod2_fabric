@@ -19,6 +19,8 @@ public class ModItemGroups {
                     .entries((displayContext, entries) -> {
                         entries.add(ModItems.EGGPLANT);
                         entries.add(ModBlocks.END_FOLIAGE);
+                        entries.add(ModItems.EXOTIC_MATTER);
+                        entries.add(ModBlocks.CONDENSED_EXOTIC_MATTER);
                     }).build());
 
     public static void registerItemGroups() {

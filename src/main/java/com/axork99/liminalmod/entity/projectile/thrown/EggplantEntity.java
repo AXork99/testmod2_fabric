@@ -1,5 +1,6 @@
 package com.axork99.liminalmod.entity.projectile.thrown;
 
+import com.axork99.liminalmod.entity.ModEntityTypes;
 import com.axork99.liminalmod.item.ModItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityStatuses;
@@ -20,25 +21,50 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
 
-public class EggplantEntity extends SnowballEntity {
+public class EggplantEntity extends ThrownItemEntity {
     public static final int DAMAGE = 1000;
 
-    public EggplantEntity(EntityType<? extends EggplantEntity> entityType, World world) {
+    public EggplantEntity(EntityType<? extends ThrownItemEntity> entityType, World world) {
         super(entityType, world);
     }
 
-    public EggplantEntity(World world, LivingEntity owner) {
-        super(world, owner);
+    public EggplantEntity(EntityType<? extends ThrownItemEntity> entityType, double d, double e, double f, World world) {
+        super(entityType, d, e, f, world);
     }
 
-    public EggplantEntity(World world, double x, double y, double z) {
-        super(world, x, y, z);
+    public EggplantEntity(EntityType<? extends ThrownItemEntity> entityType, LivingEntity livingEntity, World world) {
+        super(entityType, livingEntity, world);
     }
 
-    //@Override
-    //protected Item getDefaultItem() {
-        //return ModItems.EGGPLANT;
-    //}
+    public EggplantEntity(double d, double e, double f, World world) {
+        this(ModEntityTypes.EGGPLANT, d, e, f, world);
+    }
+
+    public EggplantEntity(LivingEntity livingEntity, World world) {
+        this(ModEntityTypes.EGGPLANT, livingEntity, world);
+    }
+
+    @Override
+    protected Item getDefaultItem() {
+        return ModItems.EGGPLANT;
+    }
+
+    private ParticleEffect getParticleParameters() {
+        ItemStack itemStack = this.getItem();
+        return (ParticleEffect)(new ItemStackParticleEffect(ParticleTypes.ITEM,
+                (itemStack.isEmpty() ? new ItemStack(ModItems.EGGPLANT) : itemStack)));
+    }
+
+    @Override
+    public void handleStatus(byte status) {
+        if (status == EntityStatuses.PLAY_DEATH_SOUND_OR_ADD_PROJECTILE_HIT_PARTICLES) {
+            ParticleEffect particleEffect = this.getParticleParameters();
+
+            for (int i = 0; i < 8; i++) {
+                this.getWorld().addParticle(particleEffect, this.getX(), this.getY(), this.getZ(), 0.0, 0.0, 0.0);
+            }
+        }
+    }
 
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
@@ -48,4 +74,12 @@ public class EggplantEntity extends SnowballEntity {
         entity.damage(this.getDamageSources().thrown(this, this.getOwner()), (float)i);
     }
 
+    @Override
+    protected void onCollision(HitResult hitResult) {
+        super.onCollision(hitResult);
+        if (!this.getWorld().isClient) {
+            this.getWorld().sendEntityStatus(this, EntityStatuses.PLAY_DEATH_SOUND_OR_ADD_PROJECTILE_HIT_PARTICLES);
+            this.discard();
+        }
+    }
 }

@@ -1,0 +1,9 @@
+// 1.20	2024-08-11T14:53:43.7459739	Liminal Mod/Model Definitions
+e4a511f7b639b8a5e4f9b7676101daccfd8e8918 assets\liminalmod\models\block\end_foliage.json
+56681a05527c18cd960194bd227d1ebde2c42a77 assets\liminalmod\models\item\end_foliage.json
+e646572afff015386b6954d07c08129a2079931e assets\liminalmod\models\block\condensed_exotic_matter.json
+28e334a0511d73e42c9b64cf143663d6a9d645f7 assets\liminalmod\models\item\condensed_exotic_matter.json
+982579cf19b2a02319e17f8d4e218d22014577bf assets\liminalmod\blockstates\end_foliage.json
+da8f62feafcfce3b0e602252305642d9615bafb0 assets\liminalmod\models\item\exotic_matter.json
+2c8d350b3487596e08c203e2f7887b716248f597 assets\liminalmod\blockstates\condensed_exotic_matter.json
+be28310f008962a8b713b07434e846f547d9c65a assets\liminalmod\models\item\eggplant.json

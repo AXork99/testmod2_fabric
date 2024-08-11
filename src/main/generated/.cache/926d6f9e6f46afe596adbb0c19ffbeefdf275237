@@ -1,0 +1,5 @@
+// 1.20	2024-08-11T14:53:43.7554973	Liminal Mod/Tags for minecraft:block
+c6ec771beb285ae45975e5358698de396f6db467 data\minecraft\tags\blocks\needs_stone_tool.json
+c6ec771beb285ae45975e5358698de396f6db467 data\minecraft\tags\blocks\mineable\pickaxe.json
+7a8fbdf65f4ca2b86c3655e688a832d2ac15cb4c data\minecraft\tags\blocks\mineable\hoe.json
+0fe705d3e2cf3eb8370b5ed36e3d1548de5abdb1 data\liminalmod\tags\blocks\can_grow_exotic.json

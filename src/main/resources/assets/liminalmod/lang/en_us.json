@@ -1,7 +1,9 @@
 {
   "item.liminalmod.eggplant": "Eggplant",
+  "item.liminalmod.exotic_matter": "Exotic Matter",
 
   "block.liminalmod.end_foliage": "End Foliage Block",
+  "block.liminalmod.condensed_exotic_matter": "Block of Condensed Exotic Matter",
 
   "itemgroup.liminal" : "Liminal"
 }

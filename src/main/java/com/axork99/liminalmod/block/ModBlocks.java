@@ -5,7 +5,9 @@ import com.axork99.liminalmod.LiminalModClient;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.MapColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -18,6 +20,8 @@ public class ModBlocks {
 
     public static final Block END_FOLIAGE = registerBlock("end_foliage",
             new Block(FabricBlockSettings.copyOf(Blocks.END_STONE)));
+    public static final Block CONDENSED_EXOTIC_MATTER = registerBlock("condensed_exotic_matter",
+            new Block(FabricBlockSettings.copyOf(Blocks.END_STONE).sounds(BlockSoundGroup.MUD)));
 
     private static Item registerBlockItem(String name, Block block) {
         return Registry.register(Registries.ITEM, new Identifier(LiminalMod.MOD_ID, name),

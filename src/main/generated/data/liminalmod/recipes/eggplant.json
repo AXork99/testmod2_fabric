@@ -1,7 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "liminal",
-  "group": "food",
+  "category": "misc",
   "ingredients": [
     {
       "item": "liminalmod:eggplant"

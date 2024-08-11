@@ -1,6 +1,7 @@
 package com.axork99.liminalmod;
 
 import com.axork99.liminalmod.block.ModBlocks;
+import com.axork99.liminalmod.entity.ModEntityTypes;
 import com.axork99.liminalmod.item.ModItemGroups;
 import com.axork99.liminalmod.item.ModItems;
 import net.fabricmc.api.ModInitializer;
@@ -15,9 +16,9 @@ public class LiminalMod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Initializing Liminal Mod");
+		ModEntityTypes.RegisterEntityTypes();
 		ModItems.registerModItems();
 		ModItemGroups.registerItemGroups();
 		ModBlocks.registerModBlocks();
-
 	}
 }

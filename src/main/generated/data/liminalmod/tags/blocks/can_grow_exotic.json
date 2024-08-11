@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "liminalmod:end_foliage",
+    "minecraft:farmland"
+  ]
+}
