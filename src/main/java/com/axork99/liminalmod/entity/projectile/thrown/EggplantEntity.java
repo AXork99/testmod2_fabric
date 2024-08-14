@@ -1,5 +1,7 @@
 package com.axork99.liminalmod.entity.projectile.thrown;
 
+import com.axork99.liminalmod.LiminalMod;
+import com.axork99.liminalmod.entity.Bouncing;
 import com.axork99.liminalmod.entity.ModEntityTypes;
 import com.axork99.liminalmod.item.ModItems;
 import net.minecraft.entity.Entity;
@@ -17,11 +19,16 @@ import net.minecraft.item.Items;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 
-public class EggplantEntity extends ThrownItemEntity {
+public class EggplantEntity extends ThrownItemEntity implements Bouncing {
     public static final int DAMAGE = 1000;
 
     public EggplantEntity(EntityType<? extends ThrownItemEntity> entityType, World world) {
@@ -76,10 +83,39 @@ public class EggplantEntity extends ThrownItemEntity {
 
     @Override
     protected void onCollision(HitResult hitResult) {
-        super.onCollision(hitResult);
-        if (!this.getWorld().isClient) {
-            this.getWorld().sendEntityStatus(this, EntityStatuses.PLAY_DEATH_SOUND_OR_ADD_PROJECTILE_HIT_PARTICLES);
-            this.discard();
+        if (hitResult.getType() == HitResult.Type.BLOCK) {
+            BlockHitResult blockHitResult = (BlockHitResult) hitResult;
+            if (!this.isOnGround()) {
+                if (!this.getWorld().isClient)
+                    this.getWorld().playSound(null, blockHitResult.getBlockPos(), SoundEvents.ENTITY_SLIME_JUMP, SoundCategory.MASTER);
+                Vec3i v = blockHitResult.getSide().getVector();
+                Vec3d normal = new Vec3d(v.getX(), v.getY(), v.getZ()).normalize();
+                this.bounce(normal);
+            } else {
+                this.setVelocity(this.getVelocity().multiply(1.0D, 0.0D, 1.0D));
+            }
+        } else {
+            super.onCollision(hitResult);
+            if (!this.getWorld().isClient) {
+                LiminalMod.LOGGER.info("Killed Eggplant!");
+                this.getWorld().sendEntityStatus(this, EntityStatuses.PLAY_DEATH_SOUND_OR_ADD_PROJECTILE_HIT_PARTICLES);
+                this.discard();
+            }
         }
+    }
+
+    @Override
+    public void bounce(Vec3d normal) {
+        if (this.getVelocity().lengthSquared() > 0.01)
+            Bouncing.super.bounce(normal);
+        else {
+            this.setVelocity(this.getVelocity().x, 0, this.getVelocity().z);
+            this.setOnGround(true);
+        }
+    }
+
+    @Override
+    public Type getBouncngType() {
+        return Type.PLASTIC;
     }
 }
