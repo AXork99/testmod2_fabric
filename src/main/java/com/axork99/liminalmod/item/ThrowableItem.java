@@ -2,6 +2,8 @@ package com.axork99.liminalmod.item;
 
 import com.axork99.liminalmod.entity.projectile.thrown.EggplantEntity;
 import com.axork99.liminalmod.utils.ItemSettingsWrapper;
+import net.minecraft.entity.FlyingItemEntity;
+import net.minecraft.entity.Ownable;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.SnowballEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
@@ -74,4 +76,12 @@ public class ThrowableItem extends Item {
             return (T) this;
         }
     }
+
+    public static interface Throwable extends Ownable, FlyingItemEntity {
+        boolean getLeftStatus();
+        void setLeftStatus(boolean leftStatus);
+        boolean getShot();
+        void setShot(boolean shot);
+    }
+
 }

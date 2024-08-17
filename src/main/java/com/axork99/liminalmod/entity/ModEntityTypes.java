@@ -21,7 +21,7 @@ public class ModEntityTypes {
                     Registries.ENTITY_TYPE,
                     new Identifier(LiminalMod.MOD_ID, "eggplant"),
                     FabricEntityTypeBuilder.create(SpawnGroup.MISC, (EntityType.EntityFactory<EggplantEntity>) EggplantEntity::new)
-                            .dimensions(EntityDimensions.fixed(1.0f, 1.0f)).build()
+                            .dimensions(EntityDimensions.fixed(0.8f, 0.8f)).build()
             );
     public static void RegisterEntityTypes () {
         LiminalMod.LOGGER.info("Registered Mod Entity Types for " + LiminalMod.MOD_ID);

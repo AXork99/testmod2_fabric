@@ -1,4 +1,4 @@
-package com.axork99.liminalmod.entity;
+package com.axork99.liminalmod.utils;
 
 import net.minecraft.util.math.Vec3d;
 
@@ -6,15 +6,15 @@ public interface Bouncing {
 
     Vec3d getVelocity();
 
-    Type getBouncngType ();
+    Type getBouncingType ();
 
     void setVelocity(Vec3d velocity);
 
     default void bounce (Vec3d normal) {
-        if (getVelocity().dotProduct(normal) < 0)
-            this.setVelocity(normal.multiply(normal.dotProduct(this.getVelocity()) * -2)
-                            .add(this.getVelocity())
-                            .multiply(1 - this.getBouncngType().getEnergyLoss()));
+        if (getVelocity().dotProduct(normal) < 0) {
+            Vec3d force = normal.multiply(normal.dotProduct(this.getVelocity()) * -1);
+            this.setVelocity(this.getVelocity().add(force).add(force.multiply(1 - this.getBouncingType().getEnergyLoss())));
+        }
     }
 
     public static enum Type {
