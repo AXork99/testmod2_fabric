@@ -36,9 +36,9 @@ public class PhysicsUtil {
             }
         }
         //LiminalMod.LOGGER.info("Bouyancy: " + accumulatedPush);
-        if (accumulatedPush.length() > 0.001)
+        if (accumulatedPush.length() > 0.0)
             body.setClipping(true);
-        return accumulatedPush.multiply(0.01);
+        return accumulatedPush.multiply(0.05 * body.getMass());
     }
     public static Vec3d calculateBuoyancy(MCRigidBody body, BlockPos pos, FluidState state) {
         Box me = body.getBoundingBox();

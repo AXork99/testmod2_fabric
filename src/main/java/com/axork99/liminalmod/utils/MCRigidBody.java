@@ -48,7 +48,7 @@ public interface MCRigidBody extends RigidBody {
     }
     @Override
     default float getFriction() {
-        return 0.5f;
+        return 0.05f;
     }
     @Override
     default float getAirResistance() {
@@ -132,6 +132,8 @@ public interface MCRigidBody extends RigidBody {
                 }
             }
         }
+        if (this.isClipping())
+            this.bounce(this.getForce().normalize());
     }
     default  <T, U> void onBlockCollision(BlockPos pos, State<T, U> state) {
         Vec3d force;
@@ -157,14 +159,20 @@ public interface MCRigidBody extends RigidBody {
     default void onBlockHit (HitResult hitResult1) {
         MultiHitResult hitResult = (MultiHitResult) hitResult1;
         Vec3d normal = hitResult.getNormal();
+        this.bounce(normal);
+    }
+
+    @Override
+    default void bounce(Vec3d normal) {
         if (normal.dotProduct(this.getGravityVector()) < 0)
             this.asEntity().setOnGround(true);
         Vec3d velocity = this.getVelocity();
-        this.bounce(normal);
+        RigidBody.super.bounce(normal);
         //this.setPosition(hitResult1.getPos());
         if (!velocity.equals(this.getVelocity())) {
-            this.setVelocity(this.getVelocity().multiply(99f/100));
-            adjustMovementForCollisions();
+            this.setVelocity(this.getVelocity().multiply(1-this.getFriction()));
+            if (!this.isClipping())
+                adjustMovementForCollisions();
         }
     }
 
@@ -191,6 +199,8 @@ public interface MCRigidBody extends RigidBody {
         }
         if (hitResult.getType() != HitResult.Type.MISS && !bl) {
             this.onCollision(hitResult);
+        } else {
+            this.asEntity().setOnGround(false);
         }
     }
 
@@ -202,34 +212,30 @@ public interface MCRigidBody extends RigidBody {
 
     default void tick() {
         this.asEntity().baseTick();
-        this.setForce(
-                this.getVelocity().normalize().multiply(
-                        -this.getVolume() * this.getAirResistance()));
-        this.updateVelocity();
+        this.setForce(Vec3d.ZERO);
         this.checkBlockCollision();
-        if (!this.isClipping())
-            this.applyForce(this.getGravityVector().multiply(this.getMass()));
-        else if (this.getForce().length() > 0.001) {
-            this.bounce(this.getForce().normalize());
-            this.applyForce(
+        if (!this.isClipping()) {
+            this.setForce(
                     this.getVelocity().normalize().multiply(
-                            -this.getForce().dotProduct(this.getVelocity()) * this.getMass() * this.getFriction() * this.getVolume()/this.getHeight()));
+                            -this.getVolume() * this.getAirResistance()));
+            this.applyForce(this.getGravityVector().multiply(this.getMass()));
         }
         this.updateVelocity();
-        this.adjustMovementForCollisions();
+        if (!this.isClipping())
+            this.adjustMovementForCollisions();
+
         if (this.asEntity().isOnGround()) {
             if (this.getVelocity().length() < 0.1f) {
                 this.setVelocity(Vec3d.ZERO);
-            } else {
+            } else if (!isClipping()) {
                 this.applyForce(
                         this.getVelocity().normalize().multiply(
-                                -this.getGravityVector().length() * this.getMass() * this.getFriction() * this.getVolume()/this.getHeight()));
+                                -this.getGravityVector().length() * this.getMass() * this.getFriction()));
             }
         }
         //LiminalMod.LOGGER.info("force: " + this.getForce() + "clipping: " + this.isClipping());
         this.updateVelocity();
         this.updatePos();
-        this.asEntity().setOnGround(false);
         this.setClipping(false);
     }
 }
