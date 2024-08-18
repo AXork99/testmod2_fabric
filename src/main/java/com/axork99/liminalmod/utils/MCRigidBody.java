@@ -116,10 +116,11 @@ public interface MCRigidBody extends RigidBody {
                         BlockState blockState = this.getWorld().getBlockState(mutable);
                         FluidState fluidState = this.getWorld().getFluidState(mutable);
                         try {
-                            if (!blockState.isAir()) {
+                            if (!(blockState == null) && !blockState.isAir()) {
                                 blockState.onEntityCollision(this.getWorld(), mutable, this.asEntity());
                                 this.onBlockCollision(pos, blockState);
-                            } else if (!fluidState.isEmpty()) {
+                            }
+                            if (!(fluidState == null) && !fluidState.isEmpty()) {
                                 this.onBlockCollision(pos, fluidState);
                             }
                         } catch (Throwable var12) {
@@ -178,7 +179,6 @@ public interface MCRigidBody extends RigidBody {
 
     default void adjustMovementForCollisions() {
         MultiHitResult hitResult = (MultiHitResult) PhysicsUtil.getCollision(this, this::canHit);
-        //LiminalMod.LOGGER.info("normal: " + hitResult.getNormal().toString());
         boolean bl = false;
         if (hitResult.getType() == HitResult.Type.BLOCK) {
             for (HitResult hit : hitResult.getHits()) {
@@ -212,10 +212,12 @@ public interface MCRigidBody extends RigidBody {
 
     default void tick() {
         this.asEntity().baseTick();
+
+        LiminalMod.LOGGER.info("submerged: " + this.asEntity().isSubmergedInWater());
         this.setForce(Vec3d.ZERO);
         this.checkBlockCollision();
         if (!this.isClipping()) {
-            this.setForce(
+            this.applyForce(
                     this.getVelocity().normalize().multiply(
                             -this.getVolume() * this.getAirResistance()));
             this.applyForce(this.getGravityVector().multiply(this.getMass()));
@@ -224,7 +226,7 @@ public interface MCRigidBody extends RigidBody {
         if (!this.isClipping())
             this.adjustMovementForCollisions();
 
-        if (this.asEntity().isOnGround()) {
+        if (this.asEntity().isOnGround() && !this.asEntity().isSubmergedInWater()) {
             if (this.getVelocity().length() < 0.1f) {
                 this.setVelocity(Vec3d.ZERO);
             } else if (!isClipping()) {

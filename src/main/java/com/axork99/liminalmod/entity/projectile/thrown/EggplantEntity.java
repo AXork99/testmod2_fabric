@@ -54,4 +54,9 @@ public class EggplantEntity extends ThrownRigidBodyEntity {
     public Type getBouncingType () {
         return Type.PLASTIC;
     }
+
+    @Override
+    public float getMass() {
+        return 0.5f;
+    }
 }

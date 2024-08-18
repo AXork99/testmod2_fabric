@@ -42,14 +42,14 @@ public class PhysicsUtil {
     }
     public static Vec3d calculateBuoyancy(MCRigidBody body, BlockPos pos, FluidState state) {
         Box me = body.getBoundingBox();
-        double volume = me.getXLength() * me.getYLength() * me.getZLength();
+        double volume = body.getVolume();
         double submerged = 0;
-        Box hitBox = state.getShape(body.getWorld(), pos).getBoundingBox();
+        Box hitBox = state.getShape(body.getWorld(), pos).getBoundingBox().offset(pos);
         if (me.intersects(hitBox)) {
             Box inter = me.intersection(hitBox);
             submerged = inter.getYLength() * inter.getXLength() * inter.getZLength();
         }
-        return body.getGravityVector().multiply(-body.getDensity() * (submerged/volume));
+        return body.getGravityVector().multiply(-3 * (submerged/volume));
     }
 
     public static MultiHitResult getCollision(MCRigidBody body, Predicate<Entity> predicate) {
